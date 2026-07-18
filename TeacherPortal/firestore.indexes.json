@@ -1,0 +1,83 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "buddyLearningAttempts",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        { "fieldPath": "sourceRecordType", "order": "ASCENDING" },
+        { "fieldPath": "createdAtUtc", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "buddyLearningAttempts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "conceptId", "order": "ASCENDING" },
+        { "fieldPath": "createdAtUtc", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "buddyConversationTurns",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "sessionId", "order": "ASCENDING" },
+        { "fieldPath": "createdAtUtc", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "gymAttempts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "gymId", "order": "ASCENDING" },
+        { "fieldPath": "goalId", "order": "ASCENDING" },
+        { "fieldPath": "passed", "order": "ASCENDING" },
+        { "fieldPath": "receivedAt", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "studentDataDeletionRequests",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "deleteAfterUtc", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "teacherEvidence",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "classId", "order": "ASCENDING" },
+        { "fieldPath": "occurredAtUtc", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "teacherEvidence",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "classId", "order": "ASCENDING" },
+        { "fieldPath": "signal", "order": "ASCENDING" },
+        { "fieldPath": "occurredAtUtc", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "teacherEvidence",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "classId", "order": "ASCENDING" },
+        { "fieldPath": "studentId", "order": "ASCENDING" },
+        { "fieldPath": "occurredAtUtc", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "teacherEvidence",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "classId", "order": "ASCENDING" },
+        { "fieldPath": "studentId", "order": "ASCENDING" },
+        { "fieldPath": "signal", "order": "ASCENDING" },
+        { "fieldPath": "occurredAtUtc", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

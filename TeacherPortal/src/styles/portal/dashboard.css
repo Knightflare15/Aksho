@@ -1,0 +1,378 @@
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.heatCell {
+  min-height: 98px;
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #dbe3ef;
+}
+
+.heatCell strong {
+  font-size: 26px;
+}
+
+.heatCell span {
+  color: #52627b;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.heatCell[data-level="low"] {
+  background: #ecf9f1;
+}
+
+.heatCell[data-level="medium"] {
+  background: #fff6dd;
+}
+
+.heatCell[data-level="high"] {
+  background: #ffecec;
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.voiceCastGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.diagnosticGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.overrideGrid {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.2fr) repeat(3, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.diagnosticCard {
+  display: grid;
+  gap: 6px;
+  min-height: 112px;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-left: 4px solid #4d8ed4;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.diagnosticCard[data-severity="2"] {
+  border-left-color: #d6a13e;
+  background: #fffbef;
+}
+
+.diagnosticCard[data-severity="3"] {
+  border-left-color: #d45f57;
+  background: #fff4f3;
+}
+
+.diagnosticCard strong {
+  color: #182033;
+  font-size: 15px;
+}
+
+.diagnosticCard span,
+.diagnosticCard p {
+  margin: 0;
+  color: #52627b;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.diagnosticCard p {
+  line-height: 1.45;
+}
+
+.templateCard {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.voiceCastCard {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #dbe3ef;
+  border-left: 4px solid #4d8ed4;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.voiceCastCard[data-success="false"] {
+  border-left-color: #d6a13e;
+  background: #fffbef;
+}
+
+.templateMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.templateMeta strong {
+  font-size: 28px;
+}
+
+.templateMeta span,
+.templateCard p,
+.voiceCastCard p {
+  margin: 0;
+  color: #52627b;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.phoneticSegments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.phoneticSegment {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
+  border: 1px solid #cfe1f7;
+  border-radius: 999px;
+  background: #eef5ff;
+  color: #32506d;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.phoneticSegment[data-status="Missing"],
+.phoneticSegment[data-status="NeedsPractice"] {
+  border-color: #edc46b;
+  background: #fff4d7;
+  color: #76531a;
+}
+
+.phoneticSegment em {
+  color: #a34a42;
+  font-style: normal;
+}
+
+.phoneticFocus {
+  color: #76531a !important;
+}
+
+.diagnosticTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.diagnosticTag {
+  padding: 4px 7px;
+  color: #32506d;
+  background: #eef5ff;
+  border: 1px solid #cfe1f7;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.strokePreview {
+  width: 100%;
+  aspect-ratio: 12 / 13;
+}
+
+.strokePreview rect {
+  fill: #ffffff;
+  stroke: #dde7f3;
+}
+
+.strokePreview polyline {
+  fill: none;
+  stroke: #2468a6;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.recommendationList {
+  display: grid;
+  gap: 10px;
+}
+
+.recommendation {
+  display: grid;
+  gap: 4px;
+  padding: 13px 14px;
+  border-left: 4px solid #4d8ed4;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.recommendation[data-priority="high"] {
+  border-left-color: #d45f57;
+}
+
+.recommendation[data-priority="medium"] {
+  border-left-color: #d6a13e;
+}
+
+.recommendation span {
+  color: #5d6b83;
+}
+
+.profileSignalGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.signalGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.trajectoryGrid,
+.reviewFlagGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.signalGroup {
+  display: grid;
+  gap: 10px;
+  min-height: 116px;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.signalGroup strong {
+  color: #182033;
+  font-size: 14px;
+}
+
+.trendCard,
+.reviewFlag {
+  display: grid;
+  gap: 7px;
+  min-height: 126px;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-left: 4px solid #8ba0bb;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.trendCard span,
+.reviewFlag span {
+  color: #63708a;
+  font-size: 12px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.trendCard strong,
+.reviewFlag strong {
+  color: #182033;
+  font-size: 15px;
+}
+
+.trendCard p,
+.reviewFlag p {
+  margin: 0;
+  color: #52627b;
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 750;
+}
+
+.trendCard[data-state="growth"],
+.reviewFlag[data-level="low"] {
+  border-left-color: #35a66a;
+  background: #f0fbf5;
+}
+
+.trendCard[data-state="decline"],
+.reviewFlag[data-level="high"] {
+  border-left-color: #d45f57;
+  background: #fff4f3;
+}
+
+.reviewFlag[data-level="medium"] {
+  border-left-color: #d6a13e;
+  background: #fffbef;
+}
+
+.teacherRoster {
+  display: grid;
+  gap: 10px;
+}
+
+.teacherRosterItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  padding: 13px 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.teacherRosterItem div {
+  display: grid;
+  gap: 3px;
+}
+
+.teacherRosterItem strong {
+  color: #182033;
+}
+
+.teacherRosterItem span,
+.teacherRosterItem small {
+  color: #63708a;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.parentWidth {
+  max-width: 680px;
+}
+
+.parentPanel {
+  background: #ffffff;
+}
+
+.parentMetrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 14px 0;
+}
+
+.parentCopy {
+  color: #40506b;
+  font-size: 17px;
+  line-height: 1.6;
+}

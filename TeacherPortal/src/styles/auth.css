@@ -1,0 +1,210 @@
+/* Authentication */
+
+.signInPage {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 0.72fr);
+  gap: 80px;
+  align-items: center;
+}
+
+.signInStory {
+  max-width: 600px;
+}
+
+.authIllustration {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 28px;
+  color: #ffffff;
+  border-radius: 20px;
+  background: linear-gradient(145deg, var(--brand), #8a75dd);
+  box-shadow: 0 16px 34px rgba(105, 82, 199, 0.22);
+}
+
+.authBenefit {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 13px;
+  margin-top: 22px;
+}
+
+.authBenefit > svg {
+  padding: 8px;
+  color: var(--brand-dark);
+  border-radius: 10px;
+  background: var(--brand-soft);
+}
+
+.authBenefit > div {
+  display: grid;
+  gap: 4px;
+}
+
+.authBenefit strong {
+  font-size: 14px;
+}
+
+.authBenefit span {
+  color: var(--ink-600);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.authCard {
+  padding: 34px;
+  border: 1px solid #dce3eb;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 22px 60px rgba(33, 47, 71, 0.12);
+}
+
+.authCard h2 {
+  margin: 0;
+  font-size: 27px;
+  letter-spacing: -0.025em;
+}
+
+.authCard > div:first-child > p:last-child {
+  margin: 8px 0 0;
+  color: var(--ink-600);
+  font-size: 12px;
+}
+
+.authForm {
+  display: grid;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.authForm label {
+  gap: 7px;
+  color: #42536b;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.authForm input {
+  min-height: 47px;
+  padding: 10px 12px;
+  border: 1px solid #ced8e4;
+  border-radius: 10px;
+  background: #fcfdff;
+}
+
+.authForm input:focus {
+  border-color: #927fdb;
+  box-shadow: 0 0 0 4px rgba(105, 82, 199, 0.1);
+}
+
+.authRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.authSecure {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #718096;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.textButton {
+  padding: 0;
+  color: var(--brand-dark);
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.textButton:hover {
+  text-decoration: underline;
+}
+
+.authSubmit {
+  width: 100%;
+  margin-top: 2px;
+}
+
+.authMessage {
+  min-height: 20px;
+  margin-top: 12px;
+}
+
+.authError,
+.authInfo {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.authError {
+  color: #913b3b;
+  background: #fff0f0;
+}
+
+.authInfo {
+  color: #24664d;
+  background: #eaf7f1;
+}
+
+.authDivider {
+  position: relative;
+  margin: 18px 0;
+  border-top: 1px solid #e2e7ee;
+  text-align: center;
+}
+
+.authDivider span {
+  position: relative;
+  top: -8px;
+  padding: 0 9px;
+  color: #7b8799;
+  background: #ffffff;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.demoRoleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.demoRoleGrid button {
+  min-height: 58px;
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 8px;
+  color: #4d5c72;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  background: #fafbfd;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.demoRoleGrid button:hover {
+  color: var(--brand-dark);
+  border-color: #c7bcef;
+  background: #f7f4ff;
+}
+
+.authFootnote {
+  margin: 19px 0 0;
+  color: #6d7b90;
+  font-size: 10px;
+  text-align: center;
+}

@@ -1,0 +1,279 @@
+.combatLabShell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(125, 200, 255, 0.18), transparent 28rem),
+    linear-gradient(135deg, #111827 0%, #1d2433 48%, #171f2d 100%);
+  color: #f8fafc;
+  padding: 24px;
+}
+
+.combatLabTopbar {
+  display: grid;
+  grid-template-columns: minmax(96px, 160px) 1fr auto;
+  gap: 18px;
+  align-items: center;
+  max-width: 1480px;
+  margin: 0 auto 22px;
+}
+
+.combatLabTopbar h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+.combatBackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #dbeafe;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.combatResetButton {
+  justify-self: end;
+}
+
+.combatLabLayout {
+  display: grid;
+  grid-template-columns: minmax(270px, 330px) minmax(460px, 1fr) minmax(310px, 380px);
+  gap: 18px;
+  max-width: 1480px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.combatPanel,
+.combatBoardPanel {
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+}
+
+.combatPanel {
+  padding: 18px;
+}
+
+.combatPanel h2,
+.combatMetaBox h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+.combatForm,
+.combatCommandBar {
+  display: grid;
+  gap: 12px;
+}
+
+.combatForm label,
+.combatCommandBar label {
+  display: grid;
+  gap: 7px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.combatForm input,
+.combatCommandBar input,
+.combatCommandBar select {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.92);
+  color: #f8fafc;
+  border-radius: 8px;
+  padding: 11px 12px;
+  font: inherit;
+}
+
+.combatStatGrid {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.unitCard {
+  background: rgba(30, 41, 59, 0.88);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.unitCard h2 {
+  margin: 2px 0 12px;
+  font-size: 19px;
+  letter-spacing: 0;
+}
+
+.meterLine {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #cbd5e1;
+}
+
+.meter {
+  position: relative;
+  display: block;
+  height: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(2, 6, 23, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #38bdf8, #22c55e);
+}
+
+.meter em {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #f8fafc;
+  font-style: normal;
+  font-size: 11px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+}
+
+.unitStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.unitStats span {
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: rgba(15, 23, 42, 0.8);
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.combatMetaBox {
+  margin-top: 18px;
+  color: #cbd5e1;
+  line-height: 1.45;
+}
+
+.combatMetaBox p {
+  margin: 10px 0 0;
+  font-size: 13px;
+}
+
+.combatBoardPanel {
+  padding: 18px;
+}
+
+.combatRealtimeStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-bottom: 10px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.combatRealtimeStrip button {
+  min-height: 32px;
+  padding: 5px 9px;
+}
+
+.combatLiveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #dcfce7;
+}
+
+.combatLiveBadge b {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
+}
+
+.combatEnemyPacePanel {
+  display: grid;
+  grid-template-columns: minmax(140px, 180px) minmax(220px, 1fr);
+  gap: 12px;
+  align-items: end;
+  max-width: 620px;
+  margin: 0 auto 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.58);
+}
+
+.combatEnemyPacePanel label {
+  display: grid;
+  gap: 5px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.combatEnemyPacePanel select {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(15, 23, 42, 0.92);
+  color: #f8fafc;
+  border-radius: 7px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+.combatEnemyPaceReadout {
+  display: grid;
+  gap: 6px;
+}
+
+.combatEnemyPaceHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #cbd5e1;
+  font-size: 11px;
+}
+
+.combatEnemyPaceHeader strong {
+  color: #f8fafc;
+}
+
+.combatEnemyPaceGauge {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.8);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.2);
+}
+
+.combatEnemyPaceGauge span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #22c55e, #facc15 62%, #fb7185);
+  transition: width 180ms ease;
+}
+
+.combatBoardWrap {
+  display: grid;
+  gap: 14px;
+}

@@ -1,0 +1,285 @@
+/* Pricing and checkout */
+
+.pricingPage,
+.subscribePage,
+.signInPage {
+  min-height: calc(100vh - 76px);
+  padding-top: 84px;
+  padding-bottom: 110px;
+}
+
+.planGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.planCard {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  gap: 14px;
+  padding: 28px;
+  border: 1px solid #dfe5ed;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 12px 34px rgba(39, 51, 75, 0.06);
+}
+
+.planCard.featured {
+  border-color: #a99be4;
+  box-shadow: 0 20px 48px rgba(91, 70, 171, 0.15);
+}
+
+.popularPill {
+  position: absolute;
+  top: -13px;
+  right: 22px;
+  padding: 6px 10px;
+  color: #ffffff;
+  border-radius: 99px;
+  background: var(--brand);
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.planAudience {
+  margin: 0;
+  color: var(--brand-dark) !important;
+  font-size: 11px !important;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.planCard h2 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.planPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.planPrice strong {
+  font-size: 34px;
+  letter-spacing: -0.04em;
+}
+
+.planPrice span,
+.summaryPrice span {
+  color: var(--ink-600);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.planCard > p {
+  margin: 0;
+  color: var(--ink-600);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.planCard ul,
+.checkoutSummary ul {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  margin: 4px 0 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.planCard li,
+.checkoutSummary li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #4f6077;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.planCard li svg,
+.checkoutSummary li svg {
+  flex: 0 0 auto;
+  color: var(--mint);
+}
+
+.pricingNote {
+  max-width: 780px;
+  margin: 22px auto 0;
+  color: #748197;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.checkoutNotice {
+  margin-top: 16px;
+  padding: 12px 14px;
+  color: #72551c;
+  border: 1px solid #efd28f;
+  border-radius: 11px;
+  background: #fff8e7;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.checkoutNotice:focus-visible {
+  outline: 3px solid rgba(105, 82, 199, 0.32);
+  outline-offset: 3px;
+}
+
+.pricingPage > .checkoutNotice {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 72px;
+}
+
+.faqGrid article {
+  padding: 22px;
+  border: 1px solid #e1e6ed;
+  border-radius: 15px;
+  background: #ffffff;
+}
+
+.faqGrid h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.faqGrid p {
+  margin: 0;
+  color: var(--ink-600);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.subscribeIntro {
+  max-width: 690px;
+  margin-bottom: 42px;
+}
+
+.subscribeGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.7fr);
+  gap: 36px;
+  align-items: start;
+}
+
+.planSelector {
+  display: grid;
+  gap: 12px;
+}
+
+.planChoice {
+  min-height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px;
+  color: var(--ink-950);
+  border: 1px solid #dce3ec;
+  border-radius: 16px;
+  background: #ffffff;
+  text-align: left;
+}
+
+.planChoice:hover,
+.planChoice.active {
+  border-color: #a99ae5;
+  background: #faf8ff;
+  box-shadow: 0 10px 30px rgba(84, 65, 159, 0.09);
+}
+
+.planChoice > span:first-child {
+  display: grid;
+  gap: 5px;
+}
+
+.planChoice strong {
+  font-size: 19px;
+}
+
+.planChoice small {
+  color: var(--ink-600);
+  font-size: 11px;
+}
+
+.planChoicePrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  color: var(--brand-dark);
+  font-size: 21px;
+  font-weight: 850;
+}
+
+.checkoutSummary {
+  position: sticky;
+  top: 100px;
+  padding: 28px;
+  border: 1px solid #d9e1ea;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.summaryIcon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  color: var(--brand-dark);
+  border-radius: 14px;
+  background: var(--brand-soft);
+}
+
+.checkoutSummary h2 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.checkoutSummary > p:not(.sectionEyebrow, .checkoutFinePrint) {
+  color: var(--ink-600);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.summaryPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  margin: 20px 0 14px;
+  padding-top: 18px;
+  border-top: 1px solid #e6eaf0;
+}
+
+.summaryPrice strong {
+  font-size: 30px;
+}
+
+.checkoutButton {
+  width: 100%;
+}
+
+.checkoutFinePrint {
+  margin: 12px 0 0;
+  color: #748196;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+}

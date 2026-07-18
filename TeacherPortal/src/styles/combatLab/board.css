@@ -1,0 +1,217 @@
+.combatBoard {
+  --hex-width: clamp(50px, 7.2vw, 78px);
+  --hex-height: calc(var(--hex-width) * 1.1547);
+  display: grid;
+  gap: 0;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 8px calc(var(--hex-width) / 2) 12px 8px;
+}
+
+.combatBoardRow {
+  display: flex;
+  gap: 0;
+}
+
+.combatBoardRow + .combatBoardRow {
+  margin-top: calc(var(--hex-height) * -0.25);
+}
+
+.combatBoardRow.isOddHexRow {
+  transform: translateX(calc(var(--hex-width) / 2));
+}
+
+.combatCell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--hex-width);
+  height: var(--hex-height);
+  min-width: var(--hex-width);
+  border: 0;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: #253044;
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, filter 120ms ease;
+}
+
+.combatCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: inherit;
+  box-shadow: inset 0 0 0 2px rgba(148, 163, 184, 0.28);
+  pointer-events: none;
+}
+
+.combatCell:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.combatCell:hover::after {
+  box-shadow: inset 0 0 0 3px rgba(147, 197, 253, 0.75);
+}
+
+.cellCoords {
+  position: absolute;
+  top: 17%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(226, 232, 240, 0.58);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  z-index: 1;
+}
+
+.unitToken,
+.terrainToken {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 19px;
+  position: relative;
+  z-index: 1;
+}
+
+.playerToken {
+  background: #38bdf8;
+  color: #082f49;
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.18);
+}
+
+.enemyToken {
+  background: #fb7185;
+  color: #4c0519;
+  box-shadow: 0 0 0 5px rgba(251, 113, 133, 0.18);
+}
+
+.terrainToken {
+  background: rgba(15, 23, 42, 0.48);
+  color: #f8fafc;
+}
+
+.inPlayerArc {
+  background: linear-gradient(rgba(56, 189, 248, 0.14), rgba(56, 189, 248, 0.14)), #253044;
+}
+
+.inPlayerArc::after {
+  box-shadow: inset 0 0 0 4px rgba(56, 189, 248, 0.42);
+}
+
+.inEnemyArc {
+  background: linear-gradient(rgba(251, 113, 133, 0.15), rgba(251, 113, 133, 0.15)), #253044;
+}
+
+.inEnemyArc::after {
+  box-shadow: inset 0 0 0 4px rgba(251, 113, 133, 0.42);
+}
+
+.inPlayerArc.inEnemyArc {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(251, 113, 133, 0.18)), #253044;
+}
+
+.inPlayerArc.inEnemyArc::after {
+  box-shadow: inset 0 0 0 4px rgba(56, 189, 248, 0.42), inset 0 0 0 8px rgba(251, 113, 133, 0.36);
+}
+
+.inMovementPath {
+  background: linear-gradient(rgba(250, 204, 21, 0.18), rgba(250, 204, 21, 0.18)), #253044;
+}
+
+.inMovementPath::after {
+  box-shadow: inset 0 0 0 4px rgba(250, 204, 21, 0.52);
+}
+
+.isMovementDestination::after {
+  box-shadow: inset 0 0 0 5px rgba(250, 204, 21, 0.92), inset 0 0 22px rgba(250, 204, 21, 0.3);
+}
+
+.isAimCell::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  clip-path: inherit;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.72);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.aimToken {
+  position: relative;
+  z-index: 3;
+  color: #f8fafc;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.terrainRock,
+.terrainWall,
+.terrainBox,
+.terrainTree {
+  background: #475569;
+}
+
+.terrainSpikes {
+  background: #6b7280;
+}
+
+.terrainWater {
+  background: #0e7490;
+}
+
+.terrainRoof {
+  background: #6d28d9;
+}
+
+.terrainBridge {
+  background: #92400e;
+}
+
+.combatLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.combatLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.playerSwatch {
+  background: #38bdf8;
+}
+
+.enemySwatch {
+  background: #fb7185;
+}
+
+.movementSwatch {
+  background: #facc15;
+}
+
+.blockSwatch {
+  background: #475569;
+}
+
+.hazardSwatch {
+  background: #0e7490;
+}

@@ -1,0 +1,163 @@
+{
+  "version": "grammar-grimoire-v1",
+  "concepts": [
+    {
+      "id": "Greetings",
+      "title": "Greetings and Survival English",
+      "summary": "Small social phrases let the learner start, answer, ask for help, thank, and leave politely.",
+      "rule": "Use the whole phrase clearly. A greeting or polite phrase works as one chunk, not as loose words.",
+      "examples": ["Hello.", "Good morning.", "Thank you.", "Yes, please.", "No, thank you.", "My name is Aryan.", "Please help me.", "Goodbye."],
+      "commonGoofs": ["thank -> thank you", "yes please is okay in speech, but write Yes, please.", "my name Aryan -> my name is Aryan", "good bye -> goodbye"],
+      "functionWords": ["hello", "hi", "goodbye", "yes", "no", "please", "thank you", "sorry", "excuse me"],
+      "pronunciationGuides": [
+        {"word": "hello", "ipa": "/heh-LOH/", "soundGuide": "he + lo", "buddyHint": "Stress the second part: hello.", "commonIssue": "dropping the h sound"},
+        {"word": "please", "ipa": "/pleez/", "soundGuide": "pl + long ee + z", "buddyHint": "Smile the long ee sound: please.", "commonIssue": "saying plis too short"},
+        {"word": "thank you", "ipa": "/THANK yoo/", "soundGuide": "thank + you", "buddyHint": "Keep the th soft, then say you.", "commonIssue": "replacing th with t is common at first"}
+      ]
+    },
+    {
+      "id": "Alphabet",
+      "title": "Alphabet",
+      "summary": "Letters are the named pieces used for reading, spelling, and handwriting.",
+      "rule": "Capital and small letters can look different, but they name the same letter.",
+      "examples": ["A / a", "B / b", "C / c", "D / d", "A comes before B.", "D comes after C.", "Cat starts with C.", "Dog starts with D."],
+      "commonGoofs": ["mixing letter name and letter sound", "b/d reversal in writing", "p/q reversal in writing", "writing a small letter when the task asks for a capital"],
+      "pronunciationGuides": [
+        {"word": "A", "ipa": "/ay/", "soundGuide": "letter name ay", "buddyHint": "Say A like the start of ape.", "commonIssue": "confusing A name with short-a sound"},
+        {"word": "B", "ipa": "/bee/", "soundGuide": "b + long ee", "buddyHint": "Keep lips together first: B.", "commonIssue": "saying v for b"},
+        {"word": "C", "ipa": "/see/", "soundGuide": "s + long ee", "buddyHint": "C is the letter name; /k/ can be the sound in cat.", "commonIssue": "using letter name when a sound is requested"},
+        {"word": "D", "ipa": "/dee/", "soundGuide": "d + long ee", "buddyHint": "Touch tongue behind teeth for D.", "commonIssue": "d/t confusion"}
+      ]
+    },
+    {
+      "id": "VowelsConsonants",
+      "title": "Vowels and Consonants",
+      "summary": "Vowels shape the middle sound of many early words; consonants usually frame the word.",
+      "rule": "The English vowel letters are a, e, i, o, and u. In short words, listen for the middle vowel sound.",
+      "examples": ["cat has short a", "rat has short a", "hen has short e", "pig has short i", "dog has short o", "pup has short u", "cat and cut are different because the middle vowel changes."],
+      "commonGoofs": ["mixing the letter name with the sound", "missing the middle vowel in short words", "cat -> cut when short a becomes short u", "pen -> pin when short e becomes short i"],
+      "functionWords": ["a", "e", "i", "o", "u"],
+      "pronunciationGuides": [
+        {"word": "cat", "ipa": "/kat/", "soundGuide": "k + short a + t", "buddyHint": "Open the mouth for the short-a sound in cat.", "commonIssue": "cat sounding like cut"},
+        {"word": "hen", "ipa": "/hen/", "soundGuide": "h + short e + n", "buddyHint": "Short e is quick, like hen.", "commonIssue": "hen sounding like hin"},
+        {"word": "pig", "ipa": "/pig/", "soundGuide": "p + short i + g", "buddyHint": "Short i is quick, like pig.", "commonIssue": "pig sounding like peeg"},
+        {"word": "dog", "ipa": "/dawg/", "soundGuide": "d + short o + g", "buddyHint": "Round the mouth a little for dog.", "commonIssue": "dog sounding like dug"},
+        {"word": "pup", "ipa": "/pup/", "soundGuide": "p + short u + p", "buddyHint": "Short u is the middle sound in pup.", "commonIssue": "pup sounding like pop"}
+      ]
+    },
+    {
+      "id": "SentenceStartEnd",
+      "title": "Sentence Start and Full Stop",
+      "summary": "A sentence is one complete thought. In writing, it needs a clear start and end.",
+      "rule": "Start with a capital letter and end with a full stop for these early statements.",
+      "examples": ["I am ready.", "We play.", "The rat bites.", "The dog runs.", "A cat sits.", "The bird flies."],
+      "commonGoofs": ["i am ready. -> I am ready.", "We play -> We play.", "the rat bites. -> The rat bites.", "using many ideas without a full stop"],
+      "functionWords": ["I", "am", "is", "are", "the", "a"]
+    },
+    {
+      "id": "BasicNouns",
+      "title": "Nouns",
+      "summary": "Nouns name people, animals, places, and things. In battle, nouns often name the creature or object.",
+      "rule": "Use a noun when you need to name who or what the sentence is about.",
+      "examples": ["rat", "cat", "dog", "owl", "fish", "shop", "box", "rock", "The dog runs.", "A rat bites."],
+      "commonGoofs": ["using an action word when the task asks for a naming word", "saying run when the task asks for the creature", "forgetting that place words like shop can also be nouns", "fish is singular and plural in this slice"],
+      "nouns": ["rat", "cat", "dog", "pup", "bird", "duck", "owl", "fish", "shop", "box", "rock", "wall", "roof"],
+      "pronunciationGuides": [
+        {"word": "rat", "ipa": "/rat/", "soundGuide": "r + short a + t", "buddyHint": "Rat has the same short-a sound as cat.", "commonIssue": "r sound becoming w"},
+        {"word": "dog", "ipa": "/dawg/", "soundGuide": "d + short o + g", "buddyHint": "Start with a clear d sound.", "commonIssue": "dog sounding like dock"},
+        {"word": "owl", "ipa": "/owl/", "soundGuide": "ow + l", "buddyHint": "Owl starts with a vowel sound, so use an owl.", "commonIssue": "adding a hidden y sound before owl"},
+        {"word": "fish", "ipa": "/fish/", "soundGuide": "f + short i + sh", "buddyHint": "End with one sh sound.", "commonIssue": "fish sounding like fiss"}
+      ]
+    },
+    {
+      "id": "BasicVerbs",
+      "title": "Verbs and Present Actions",
+      "summary": "Verbs show actions. In the game, verbs drive spoken commands and battle moves.",
+      "rule": "Use the action that fits the subject. I, you, we, and they use the base verb; he, she, it, and one noun usually add s or es.",
+      "examples": ["I bite.", "You run.", "The rat bites.", "The dog runs.", "The bird flies.", "The fish swims.", "They bite.", "He jumps."],
+      "commonGoofs": ["the rat bite -> the rat bites", "fish run -> fish swims", "he run -> he runs", "they runs -> they run", "bird flys -> bird flies", "dog runned -> dog ran"],
+      "pronunciationGuides": [
+        {"word": "bite", "ipa": "/byt/", "soundGuide": "b + long i + t", "buddyHint": "Bite has a long-i sound.", "commonIssue": "b/v confusion"},
+        {"word": "run", "ipa": "/run/", "soundGuide": "r + short u + n", "buddyHint": "Run uses the short-u sound.", "commonIssue": "run sounding like ran"},
+        {"word": "flies", "ipa": "/flyz/", "soundGuide": "fly + z", "buddyHint": "Flies ends with a z sound.", "commonIssue": "saying flys as two hard parts"},
+        {"word": "scratch", "ipa": "/skrach/", "soundGuide": "s + k + r + short a + ch", "buddyHint": "Start the cluster slowly: s-k-r.", "commonIssue": "dropping the s or r cluster"}
+      ],
+      "conjugationVerbs": ["go", "bite", "run", "jump", "scratch", "fly", "peck", "swim", "sit", "help"]
+    },
+    {
+      "id": "Articles",
+      "title": "Articles",
+      "summary": "Articles sit before nouns and make the noun phrase clearer.",
+      "rule": "Use a before consonant sounds, an before vowel sounds, and the for a specific known noun.",
+      "examples": ["a rat", "a dog", "a bird", "an owl", "an apple", "the dog", "the small cat", "a big rat"],
+      "commonGoofs": ["a owl -> an owl", "an rat -> a rat", "a apple -> an apple", "using the when the noun is new", "forgetting that article choice follows sound, not just spelling"],
+      "functionWords": ["a", "an", "the"],
+      "pronunciationGuides": [
+        {"word": "a", "ipa": "/uh/", "soundGuide": "quick uh", "buddyHint": "In speech, a often sounds like a quick uh.", "commonIssue": "over-stressing a"},
+        {"word": "an", "ipa": "/an/", "soundGuide": "short a + n", "buddyHint": "Use an before owl or apple.", "commonIssue": "dropping n before a vowel sound"},
+        {"word": "the", "ipa": "/thuh/", "soundGuide": "th + uh", "buddyHint": "Use a soft th; the marks a known noun.", "commonIssue": "saying da is common at first"}
+      ]
+    },
+    {
+      "id": "Pronouns",
+      "title": "Pronouns",
+      "summary": "Pronouns replace nouns so the learner can answer without repeating the full name.",
+      "rule": "I, you, we, and they use the base verb; he, she, and it usually add s or es in simple present.",
+      "examples": ["I bite.", "You run.", "He bites.", "She jumps.", "It runs.", "We help.", "They bite.", "The dog runs. It runs."],
+      "commonGoofs": ["he bite -> he bites", "they bites -> they bite", "she run -> she runs", "it fly -> it flies", "using he/she for animals when the task already says it"],
+      "functionWords": ["I", "you", "he", "she", "it", "we", "they"],
+      "pronunciationGuides": [
+        {"word": "I", "ipa": "/eye/", "soundGuide": "long i", "buddyHint": "I is always capital in writing.", "commonIssue": "writing small i"},
+        {"word": "he", "ipa": "/hee/", "soundGuide": "h + long ee", "buddyHint": "Start with a light h sound.", "commonIssue": "dropping h"},
+        {"word": "she", "ipa": "/shee/", "soundGuide": "sh + long ee", "buddyHint": "Start with sh, not s.", "commonIssue": "she sounding like see"},
+        {"word": "they", "ipa": "/thay/", "soundGuide": "th + ay", "buddyHint": "They starts with soft th.", "commonIssue": "they sounding like day"}
+      ],
+      "conjugationVerbs": ["go", "bite", "run", "jump", "scratch", "fly", "peck", "swim", "sit", "help"]
+    },
+    {
+      "id": "Plurals",
+      "title": "Plurals",
+      "summary": "Plural nouns show more than one.",
+      "rule": "Most nouns add s. Nouns ending in s, x, sh, or ch often add es. Words ending in consonant + y often change y to ies.",
+      "examples": ["rat / rats", "cat / cats", "dog / dogs", "box / boxes", "brush / brushes", "puppy / puppies", "one rat / many rats", "one box / many boxes"],
+      "commonGoofs": ["boxs -> boxes", "puppys -> puppies", "ratses -> rats", "fishs -> fish in this slice", "forgetting the final s sound in speech"],
+      "nouns": ["rat/rats", "cat/cats", "dog/dogs", "bird/birds", "owl/owls", "box/boxes", "puppy/puppies", "fish/fish"],
+      "pronunciationGuides": [
+        {"word": "cats", "ipa": "/kats/", "soundGuide": "cat + s", "buddyHint": "End with a clear s sound.", "commonIssue": "dropping plural s"},
+        {"word": "dogs", "ipa": "/dawgz/", "soundGuide": "dog + z", "buddyHint": "After g, plural s sounds like z.", "commonIssue": "saying hard s instead of z"},
+        {"word": "boxes", "ipa": "/BOK-siz/", "soundGuide": "box + iz", "buddyHint": "Boxes has an extra syllable.", "commonIssue": "saying boxs"},
+        {"word": "puppies", "ipa": "/PUH-peez/", "soundGuide": "puppy -> puppies", "buddyHint": "Change y to ies in writing.", "commonIssue": "writing puppys"}
+      ]
+    },
+    {
+      "id": "Adjectives",
+      "title": "Adjectives",
+      "summary": "Adjectives describe nouns and change the meaning of a noun phrase.",
+      "rule": "Put the adjective before the noun in these early patterns. Use one clear describing word unless the task asks for more.",
+      "examples": ["big rat", "small cat", "fast dog", "slow turtle", "a big dog", "an old owl", "the small bird", "The small cat runs."],
+      "commonGoofs": ["rat big -> big rat", "the rat small -> the small rat", "using two adjectives when the task asks for one", "forgetting the noun after the adjective"],
+      "adjectives": ["big", "small", "fast", "slow", "brave", "quiet", "bright", "heavy", "light", "old", "young"],
+      "pronunciationGuides": [
+        {"word": "big", "ipa": "/big/", "soundGuide": "b + short i + g", "buddyHint": "Big has a short-i sound.", "commonIssue": "big sounding like beg"},
+        {"word": "small", "ipa": "/smawl/", "soundGuide": "s + m + aw + l", "buddyHint": "Keep the sm cluster together.", "commonIssue": "dropping s in sm"},
+        {"word": "fast", "ipa": "/fast/", "soundGuide": "f + short a + st", "buddyHint": "End with the st cluster.", "commonIssue": "dropping t"},
+        {"word": "quiet", "ipa": "/KWY-uht/", "soundGuide": "kw + eye + uht", "buddyHint": "Quiet starts with kw.", "commonIssue": "quiet sounding like quite in the wrong context"}
+      ]
+    },
+    {
+      "id": "BasicPrepositions",
+      "title": "Basic Prepositions",
+      "summary": "Prepositions show place, position, and direction.",
+      "rule": "Use the location word that matches the scene: in, on, under, behind, near, beside, or over. A preposition usually needs an object after it.",
+      "examples": ["rat in the box", "cat on the roof", "dog under the roof", "dog behind the rock", "cat near the rock", "rat beside the wall", "bird over the wall", "The dog runs behind the rock."],
+      "commonGoofs": ["using on when the object is inside", "using in when the creature is on top", "missing the object after the preposition", "behind rock -> behind the rock", "beside and behind are different positions"],
+      "functionWords": ["in", "on", "under", "behind", "near", "beside", "over"],
+      "pronunciationGuides": [
+        {"word": "under", "ipa": "/UN-der/", "soundGuide": "un + der", "buddyHint": "Under has two parts.", "commonIssue": "ending too early after un"},
+        {"word": "behind", "ipa": "/bee-HYND/", "soundGuide": "be + hind", "buddyHint": "Stress the second part: behind.", "commonIssue": "behind sounding like bind"},
+        {"word": "beside", "ipa": "/bee-SYD/", "soundGuide": "be + side", "buddyHint": "Beside means next to.", "commonIssue": "mixing beside and behind"},
+        {"word": "over", "ipa": "/OH-ver/", "soundGuide": "oh + ver", "buddyHint": "Over starts with a long o sound.", "commonIssue": "over sounding like offer"}
+      ]
+    }
+  ]
+}

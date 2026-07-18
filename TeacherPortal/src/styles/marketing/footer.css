@@ -1,0 +1,69 @@
+/* Marketing footer */
+
+.marketingFooter {
+  padding-top: 58px;
+  color: #bec7d5;
+  background: #111d31;
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1.45fr repeat(3, 1fr);
+  gap: 42px;
+  padding-bottom: 44px;
+}
+
+.footerBrand {
+  align-self: start;
+  color: #ffffff;
+}
+
+.footerBrand small {
+  color: #9aa8bd;
+}
+
+.footerGrid > div:not(.footerBrand) {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 11px;
+}
+
+.footerGrid > div > strong {
+  margin-bottom: 4px;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.footerGrid button,
+.footerGrid a,
+.footerGrid span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  color: #a9b5c7;
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: none;
+}
+
+.footerGrid button:hover,
+.footerGrid a:hover {
+  color: #ffffff;
+}
+
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 20px;
+  padding-bottom: 24px;
+  border-top: 1px solid #2a3548;
+  color: #8997ab;
+  font-size: 10px;
+}

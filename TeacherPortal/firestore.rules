@@ -1,0 +1,490 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function hasProfile() {
+      return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function profile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function uid() {
+      return signedIn() ? request.auth.uid : null;
+    }
+
+    function role() {
+      return hasProfile() ? profile().role : null;
+    }
+
+    function sameSchool(schoolId) {
+      return hasProfile() && profile().schoolId == schoolId;
+    }
+
+    function classIds() {
+      return hasProfile() && profile().classIds is list ? profile().classIds : [];
+    }
+
+    function studentIds() {
+      return hasProfile() && profile().studentIds is list ? profile().studentIds : [];
+    }
+
+    function isAdmin(schoolId) {
+      return sameSchool(schoolId) && role() == "admin";
+    }
+
+    function isTeacherForClass(schoolId, classId) {
+      return sameSchool(schoolId) && role() == "teacher" && classId in classIds();
+    }
+
+    function isParentForStudent(schoolId, studentId) {
+      return sameSchool(schoolId) && role() == "parent" && studentId in studentIds();
+    }
+
+    function isParentForClass(schoolId, classId) {
+      return sameSchool(schoolId) && role() == "parent" && classId in classIds();
+    }
+
+    function isStudentSelf(schoolId, studentId) {
+      return sameSchool(schoolId)
+        && role() == "student"
+        && profile().studentId == studentId;
+    }
+
+    function isStudentForClass(schoolId, classId) {
+      return sameSchool(schoolId) && role() == "student" && classId in classIds();
+    }
+
+    function studentClassId(schoolId, studentId) {
+      return get(/databases/$(database)/documents/schools/$(schoolId)/students/$(studentId)).data.classId;
+    }
+
+    function canReadStudentAnalytics(schoolId, studentId) {
+      return isAdmin(schoolId)
+        || isStudentSelf(schoolId, studentId)
+        || isTeacherForClass(schoolId, studentClassId(schoolId, studentId));
+    }
+
+    function canTeacherReviewStudent(schoolId, studentId) {
+      return isAdmin(schoolId)
+        || isTeacherForClass(schoolId, studentClassId(schoolId, studentId));
+    }
+
+    function canReadParentSummary(schoolId, studentId) {
+      return isAdmin(schoolId)
+        || isParentForStudent(schoolId, studentId)
+        || isTeacherForClass(schoolId, studentClassId(schoolId, studentId));
+    }
+
+    function schoolScopedCreate(schoolId) {
+      return request.resource.data.schoolId == schoolId;
+    }
+
+    // Release telemetry is accepted only through authenticated callable
+    // Functions, which validate identity, size, immutability, budgets, and
+    // server-owned side effects. Admin SDK writes bypass client rules.
+    function serverOnlyEvidence() {
+      return false;
+    }
+
+    function validPronunciationJob(schoolId, studentId, jobId) {
+      return request.resource.data.jobId == jobId
+        && request.resource.data.studentId == studentId
+        && request.resource.data.schoolId == schoolId
+        && request.resource.data.analysisKind == "pronunciation"
+        && request.resource.data.status == "pending"
+        && request.resource.data.targetText is string
+        && request.resource.data.targetText.size() > 0
+        && request.resource.data.targetText.size() <= 240
+        && request.resource.data.audioStoragePath is string
+        && request.resource.data.audioStoragePath.size() <= 1024
+        && request.resource.data.audioStoragePath.matches(
+          '^gs://[^/]+/schools/' + schoolId + '/students/' + studentId + '/pronunciationAudio/[A-Za-z0-9_-]+[.]wav$');
+    }
+
+    function canWriteUserProfile(data) {
+      return signedIn()
+        && data.schoolId is string
+        && (
+          isAdmin(data.schoolId)
+          || (
+            data.role == "student"
+            && data.studentId is string
+            && data.classIds is list
+            && data.classIds.size() > 0
+            && isTeacherForClass(data.schoolId, data.classIds[0])
+          )
+        );
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn()
+        && (uid() == userId || (hasProfile() && sameSchool(resource.data.schoolId) && (role() == "admin" || role() == "teacher")));
+      allow create, update: if canWriteUserProfile(request.resource.data);
+      allow delete: if hasProfile() && isAdmin(resource.data.schoolId);
+    }
+
+    match /schools/{schoolId} {
+      allow read: if sameSchool(schoolId);
+      allow create, update: if isAdmin(schoolId) && request.resource.data.id == schoolId;
+      allow delete: if false;
+
+      match /classes/{classId} {
+        allow read: if isAdmin(schoolId)
+          || isTeacherForClass(schoolId, classId)
+          || isParentForClass(schoolId, classId)
+          || isStudentForClass(schoolId, classId);
+        allow create, update: if (isAdmin(schoolId) || isTeacherForClass(schoolId, classId))
+          && schoolScopedCreate(schoolId);
+        allow delete: if isAdmin(schoolId);
+
+        match /arenaAssignments/{arenaId} {
+          allow read: if isAdmin(schoolId)
+            || isTeacherForClass(schoolId, classId)
+            || isStudentForClass(schoolId, classId);
+          allow create, update: if (isAdmin(schoolId) || isTeacherForClass(schoolId, classId))
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.classId == classId;
+          allow delete: if isAdmin(schoolId);
+        }
+
+        match /dailyMissions/{missionId} {
+          allow read: if isAdmin(schoolId)
+            || isTeacherForClass(schoolId, classId)
+            || isParentForClass(schoolId, classId)
+            || isStudentForClass(schoolId, classId);
+          allow create, update: if (isAdmin(schoolId) || isTeacherForClass(schoolId, classId))
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.classId == classId;
+          allow delete: if isAdmin(schoolId);
+        }
+
+        match /worldGoals/{goalId} {
+          allow read: if isAdmin(schoolId)
+            || isTeacherForClass(schoolId, classId)
+            || isParentForClass(schoolId, classId)
+            || isStudentForClass(schoolId, classId);
+          allow create, update: if (isAdmin(schoolId) || isTeacherForClass(schoolId, classId))
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.classId == classId;
+          allow delete: if isAdmin(schoolId);
+        }
+
+      }
+
+      match /teachers/{teacherId} {
+        allow read: if isAdmin(schoolId) || (sameSchool(schoolId) && uid() == teacherId);
+        allow create, update: if isAdmin(schoolId) && request.resource.data.schoolId == schoolId;
+        allow delete: if isAdmin(schoolId);
+      }
+
+      match /students/{studentId} {
+        allow read: if isAdmin(schoolId)
+          || isParentForStudent(schoolId, studentId)
+          || isStudentSelf(schoolId, studentId)
+          || isTeacherForClass(schoolId, resource.data.classId);
+        allow create: if (isAdmin(schoolId) || isTeacherForClass(schoolId, request.resource.data.classId))
+          && request.resource.data.schoolId == schoolId;
+        allow update: if request.resource.data.schoolId == resource.data.schoolId
+          && request.resource.data.classId == resource.data.classId
+          && request.resource.data.schoolId == schoolId
+          && (isAdmin(schoolId) || isTeacherForClass(schoolId, resource.data.classId));
+        allow delete: if isAdmin(schoolId);
+
+        match /runSessions/{sessionId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /letterAttempts/{attemptId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /wordCastEvents/{eventId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /spokenPhraseEvents/{eventId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /writtenPhraseEvents/{eventId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /grammarBattleEvents/{eventId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /buddyConversationTurns/{eventId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /buddyLearningAttempts/{eventId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId
+            && request.resource.data.eventId == eventId;
+          allow update, delete: if false;
+        }
+
+        match /buddyLearningSessions/{sessionId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId
+            && request.resource.data.sessionId == sessionId;
+          allow update: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && request.resource.data.studentId == resource.data.studentId
+            && request.resource.data.schoolId == resource.data.schoolId
+            && request.resource.data.sessionId == resource.data.sessionId;
+          allow delete: if false;
+        }
+
+        match /buddyLearnerProfiles/{profileId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId
+            && request.resource.data.profileId == profileId;
+          allow update: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && request.resource.data.studentId == resource.data.studentId
+            && request.resource.data.schoolId == resource.data.schoolId
+            && request.resource.data.profileId == resource.data.profileId;
+          allow delete: if false;
+        }
+
+        match /buddyLearnerState/{snapshotId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow write: if false;
+        }
+
+        match /gymAttempts/{attemptId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /countingMiniGameAttempts/{attemptId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /colorMiniGameAttempts/{attemptId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /empathyEvents/{eventId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /acceptedHandwritingTemplates/{templateId} {
+          allow read: if canTeacherReviewStudent(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+          allow update, delete: if false;
+        }
+
+        match /analysisJobs/{jobId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && validPronunciationJob(schoolId, studentId, jobId);
+          allow update, delete: if false;
+        }
+
+        match /studentMissionOverrides/{missionId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if (isAdmin(schoolId) || isTeacherForClass(schoolId, studentClassId(schoolId, studentId)))
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId
+            && request.resource.data.classId == studentClassId(schoolId, studentId);
+          allow update: if (isAdmin(schoolId) || isTeacherForClass(schoolId, resource.data.classId))
+            && request.resource.data.schoolId == resource.data.schoolId
+            && request.resource.data.studentId == resource.data.studentId
+            && request.resource.data.classId == resource.data.classId;
+          allow delete: if isAdmin(schoolId) || isTeacherForClass(schoolId, resource.data.classId);
+        }
+
+        match /worldGoals/{goalId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow create: if (isAdmin(schoolId) || isTeacherForClass(schoolId, studentClassId(schoolId, studentId)))
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId
+            && request.resource.data.classId == studentClassId(schoolId, studentId);
+          allow update: if (isAdmin(schoolId) || isTeacherForClass(schoolId, resource.data.classId))
+            && request.resource.data.schoolId == resource.data.schoolId
+            && request.resource.data.studentId == resource.data.studentId
+            && request.resource.data.classId == resource.data.classId;
+          allow delete: if isAdmin(schoolId) || isTeacherForClass(schoolId, resource.data.classId);
+        }
+
+        match /worldGoalClaims/{goalId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow write: if false;
+        }
+
+        match /wallet/{walletId} {
+          allow read: if canReadStudentAnalytics(schoolId, studentId);
+          allow write: if false;
+        }
+
+        match /cosmetics/{inventoryId} {
+          allow read: if isStudentSelf(schoolId, studentId) || isAdmin(schoolId);
+          allow write: if false;
+        }
+
+        match /recommendations/{recommendationId} {
+          allow read: if canTeacherReviewStudent(schoolId, studentId);
+          allow write: if false;
+        }
+
+        match /parentSummaries/{summaryId} {
+          allow read: if canReadParentSummary(schoolId, studentId);
+          allow write: if serverOnlyEvidence() && isStudentSelf(schoolId, studentId)
+            && schoolScopedCreate(schoolId)
+            && request.resource.data.studentId == studentId;
+        }
+      }
+    }
+
+    match /accessCodes/{codeId} {
+      allow read, write: if false;
+    }
+
+    match /auditEvents/{eventId} {
+      allow read: if signedIn() && sameSchool(resource.data.schoolId) && (role() == "admin" || role() == "teacher");
+      allow create: if serverOnlyEvidence() && signedIn()
+        && request.resource.data.schoolId is string
+        && sameSchool(request.resource.data.schoolId)
+        && (role() == "admin" || role() == "teacher");
+      allow update, delete: if false;
+    }
+
+    match /gameContentMeta/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentConcepts/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentGrimoirePages/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentVerbs/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentNouns/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentAdjectives/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentFunctionWords/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentAreas/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentDialogueTasks/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentPracticeScaffolds/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentValidationRules/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentGyms/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentCombatPatterns/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentBuddyContracts/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /gameContentTeacherReportSchemas/{contentId} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

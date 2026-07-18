@@ -1,0 +1,33 @@
+{
+  "name": "the-script-school-functions",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc && node scripts/copyGeneratedContent.mjs",
+    "test": "npm run build && node --test lib/tests",
+    "serve": "npm run build && firebase emulators:start --only functions,firestore,auth",
+    "deploy": "npm run build && firebase deploy --only functions",
+    "content:validate": "node ../../Tools/ValidateProductionContent.mjs",
+    "loc:check": "node ../../Tools/CheckSourceLoc.mjs --check",
+    "seed:first-admin": "npm run build && node lib/seedFirstAdmin.js",
+    "seed:demo-analytics": "npm run build && node lib/seedDemoAnalytics.js",
+    "seed:game-content": "npm run build && node lib/seedDeterministicGameContent.js"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "@livekit/protocol": "1.49.0",
+    "firebase-admin": "^13.10.0",
+    "firebase-functions": "^7.2.5",
+    "livekit-server-sdk": "2.14.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
+}

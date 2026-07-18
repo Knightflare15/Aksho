@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Wav2Vec2PhoneticTester</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="phonetic_tester.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="allosaurus_tester.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="hf_ctc_tester.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="zipa_onnx_tester.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="evaluate_assets.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="evaluate_allosaurus_assets.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="evaluate_hf_ctc_assets.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="benchmark_phone_models.py" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="tokenizer_en_cmu\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="requirements.txt" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="README.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

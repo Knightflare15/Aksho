@@ -1,0 +1,371 @@
+@media (max-width: 1100px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .heroCopy {
+    max-width: 760px;
+    text-align: center;
+    justify-self: center;
+  }
+
+  .announcementPill,
+  .heroActions,
+  .heroReassurance {
+    justify-content: center;
+    margin-inline: auto;
+  }
+
+  .heroVisual {
+    width: min(100%, 680px);
+    justify-self: center;
+  }
+
+  .educatorGrid {
+    gap: 44px;
+  }
+
+  .appShell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: auto;
+    display: grid;
+    grid-template-columns: auto minmax(170px, 1fr) auto;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+  }
+
+  .schoolIdentity {
+    justify-self: start;
+    min-width: 210px;
+    padding: 8px 10px;
+  }
+
+  .schoolAvatar {
+    width: 31px;
+    height: 31px;
+  }
+
+  .sidebar nav,
+  .sidebarPlanCard,
+  .sidebarProfile {
+    display: none;
+  }
+
+  .sidebarBottom {
+    margin: 0;
+  }
+
+  .sidebarActions {
+    display: flex;
+  }
+
+  .sidebarActions .secondaryButton {
+    width: auto;
+    padding-inline: 10px;
+  }
+
+  .mobileWorkspaceNav {
+    display: block;
+  }
+
+  .content {
+    padding-top: 24px;
+  }
+
+  .teacherHero {
+    grid-template-columns: 1fr;
+  }
+
+  .teacherHeroSummary {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  .marketingNav {
+    grid-template-columns: auto 1fr;
+  }
+
+  .marketingLinks {
+    display: none;
+  }
+
+  .marketingActions {
+    justify-self: end;
+  }
+
+  .featureGrid,
+  .planGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .featureCard {
+    min-height: 0;
+  }
+
+  .educatorGrid,
+  .safetySection,
+  .signInPage,
+  .subscribeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .educatorCopy {
+    grid-row: 1;
+  }
+
+  .checkoutSummary {
+    position: static;
+  }
+
+  .footerGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trustStripInner {
+    grid-template-columns: repeat(3, 1fr);
+    padding-block: 20px;
+  }
+
+  .trustStripInner > span {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .pageContainer {
+    width: min(100% - 30px, 1180px);
+  }
+
+  .marketingNav {
+    min-height: 66px;
+    gap: 10px;
+  }
+
+  .brandLockup small,
+  .marketingActions .ghostButton {
+    display: none;
+  }
+
+  .marketingPrimaryButton,
+  .marketingSecondaryButton,
+  .ghostButton {
+    min-height: 42px;
+    padding: 0 13px;
+    font-size: 12px;
+  }
+
+  .marketingHero {
+    padding: 58px 0 64px;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(42px, 13vw, 56px);
+  }
+
+  .heroLead {
+    font-size: 16px;
+  }
+
+  .heroActions > button {
+    width: 100%;
+  }
+
+  .heroVisual {
+    min-height: 390px;
+  }
+
+  .dashboardPreview {
+    min-height: 330px;
+    grid-template-columns: 44px 1fr;
+    border-radius: 18px;
+  }
+
+  .previewContent {
+    padding: 16px;
+  }
+
+  .previewSidebar {
+    padding-top: 16px;
+  }
+
+  .previewLogo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .previewMetrics > div {
+    padding: 8px;
+  }
+
+  .previewMetrics span {
+    font-size: 14px;
+  }
+
+  .previewBottomGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .previewBottomGrid > div:first-child {
+    display: none;
+  }
+
+  .floatingInsight {
+    right: 0;
+    bottom: 8px;
+  }
+
+  .trustStripInner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 14px;
+  }
+
+  .marketingSection,
+  .safetySection,
+  .educatorBand {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .sectionIntro {
+    margin-bottom: 30px;
+  }
+
+  .educatorGrid {
+    gap: 32px;
+  }
+
+  .educatorMock {
+    padding: 15px;
+  }
+
+  .safetySection {
+    gap: 30px;
+  }
+
+  .closingCtaInner {
+    display: grid;
+  }
+
+  .closingCta .heroActions > button {
+    width: auto;
+  }
+
+  .pricingPage,
+  .subscribePage,
+  .signInPage {
+    padding-top: 54px;
+    padding-bottom: 72px;
+  }
+
+  .planCard,
+  .authCard,
+  .checkoutSummary {
+    padding: 22px;
+  }
+
+  .faqGrid,
+  .footerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footerBottom {
+    display: grid;
+  }
+
+  .signInPage {
+    gap: 38px;
+  }
+
+  .demoRoleGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .demoRoleGrid button {
+    min-height: 42px;
+    display: flex;
+  }
+
+  .sidebar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .schoolIdentity {
+    display: none;
+  }
+
+  .sidebarActions .secondaryButton:first-child {
+    display: none;
+  }
+
+  .content {
+    padding: 16px 14px 36px;
+  }
+
+  .teacherHero {
+    gap: 22px;
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .teacherHeroActions > button {
+    flex: 1 1 150px;
+  }
+
+  .heroSummaryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .heroSummaryGrid > div:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .mobileWorkspaceNav .segmentedNav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 5px;
+    scrollbar-width: thin;
+  }
+
+  .mobileWorkspaceNav .segment {
+    flex: 0 0 auto;
+    min-width: 110px;
+  }
+
+  .panel {
+    padding: 17px;
+  }
+
+  .teacherAssistantHeader,
+  .assistantComposer,
+  .assistantColumns,
+  .assistantPromptGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .assistantComposer .primaryButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
