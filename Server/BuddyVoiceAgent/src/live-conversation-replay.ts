@@ -11,8 +11,11 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { paceFrames, readPcm16Wav } from './audio.js';
+import { loadEnvironment } from './config.js';
 
-const firebaseApiKey = 'AIzaSyCPJbZJXWj0o-ZKgOWAN4xTKbg33oV_3iM';
+loadEnvironment();
+
+const firebaseApiKey = requiredEnvironment('BUDDY_FIREBASE_API_KEY');
 const functionsBaseUrl = 'https://asia-south1-the-script-dea4f.cloudfunctions.net';
 const debugTopic = 'buddy.debug_event';
 const here = path.dirname(fileURLToPath(import.meta.url));
