@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 import { loadEnvironment, readBuddyVoiceConfig } from './config.js';
 import { createSarvamLlm, createSarvamStt, createSarvamTts } from './providers.js';
 import { chunkTextStream } from './text-chunker.js';
+import { createVadGatedSttStream } from './vad-gated-stt.js';
 import {
   buddyWorkerLoad,
   parseBuddyGameEvent,
@@ -60,13 +61,50 @@ export default defineAgent<BuddyProcessData>({
     const publishDebug = (event: BuddyDebugEvent) => {
       void publishBuddyDebugEvent(ctx.room, lesson, event);
     };
+    // The custom STT node receives a LiveKit-managed audio stream. It does not
+    // subscribe to room tracks itself, so it cannot race the session's audio
+    // lifecycle. Reuse the session resources so the gate and turn handling
+    // apply the same VAD thresholds and Sarvam configuration.
+    const speechRecognition = createSarvamStt(config);
     const agent = voice.Agent.create({
       instructions: buddyInstructions(lesson),
-      sttNode(hook, audio, modelSettings) {
-        // AgentSession already owns Silero VAD and the inbound audio lifecycle.
-        // Adding a second VAD stream here left real room audio unsubscribed from
-        // its STT turn pipeline even though isolated fixture tests passed.
-        return voice.Agent.default.sttNode(hook.agent, audio, modelSettings);
+      sttNode(_hook, audio) {
+        // Keep only bounded pre-roll plus speech in Sarvam's stream. On local
+        // VAD end-of-speech, flush Sarvam immediately rather than making it
+        // infer an end from uploaded silence. AgentSession still owns room
+        // subscription and its separate VAD stream for turn handling.
+        return createVadGatedSttStream(audio, speechRecognition, vad, {
+          prefixPaddingMs: config.vad.prefixPaddingDuration,
+          // Let short within-sentence pauses resume the same Sarvam stream.
+          // Total local silence before a final flush stays within the endpoint limit.
+          endOfSpeechFlushDelayMs: Math.max(
+            0,
+            config.endpointing.maximumDelay - config.vad.minSilenceDuration,
+          ),
+          onGateEvent: event => {
+            const stats = event.stats;
+            const message = event.type === 'speech_start'
+              ? 'Local VAD detected learner speech; forwarding bounded pre-roll to Sarvam.'
+              : event.type === 'speech_end'
+                ? 'Local VAD detected end of speech; requesting a Sarvam final transcript.'
+                : event.type === 'flush'
+                  ? 'Sarvam STT stream flushed at the local VAD speech boundary.'
+                  : 'VAD-gated STT stream statistics updated.';
+            publishDebug({
+              stage: 'vad',
+              type: event.type,
+              message,
+              details: {
+                receivedFrames: stats.receivedFrames,
+                forwardedFrames: stats.forwardedFrames,
+                droppedFrames: stats.droppedFrames,
+                flushes: stats.flushes,
+                speechStarts: stats.speechStarts,
+                speechEnds: stats.speechEnds,
+              },
+            });
+          },
+        });
       },
       ttsNode(hook, text, modelSettings) {
         const tappedText = tapLlmTextStream(text, publishDebug);
@@ -80,7 +118,7 @@ export default defineAgent<BuddyProcessData>({
 
     const session = new voice.AgentSession({
       vad,
-      stt: createSarvamStt(config),
+      stt: speechRecognition,
       llm: createSarvamLlm(config),
       tts: createSarvamTts(config),
       turnHandling: {

@@ -1,5 +1,5 @@
 import { AudioFrame } from '@livekit/rtc-node';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export function silenceFrames(
@@ -94,6 +94,61 @@ export async function writeWav(filePath: string, frames: readonly AudioFrame[]):
 
   await mkdir(path.dirname(filePath), { recursive: true });
   await writeFile(filePath, wav);
+}
+
+/** Reads an uncompressed 16-bit PCM WAV fixture into short audio frames. */
+export async function readPcm16Wav(
+  filePath: string,
+  frameDurationMs = 20,
+): Promise<AudioFrame[]> {
+  const wav = await readFile(filePath);
+  if (wav.length < 44 || wav.toString('ascii', 0, 4) !== 'RIFF' || wav.toString('ascii', 8, 12) !== 'WAVE') {
+    throw new Error(`Unsupported WAV file: ${filePath}`);
+  }
+
+  let format = 0;
+  let channels = 0;
+  let sampleRate = 0;
+  let bitsPerSample = 0;
+  let dataOffset = -1;
+  let dataLength = 0;
+  for (let offset = 12; offset + 8 <= wav.length;) {
+    const chunkId = wav.toString('ascii', offset, offset + 4);
+    const chunkLength = wav.readUInt32LE(offset + 4);
+    const bodyOffset = offset + 8;
+    if (bodyOffset + chunkLength > wav.length) throw new Error(`Truncated WAV chunk: ${filePath}`);
+    if (chunkId === 'fmt ' && chunkLength >= 16) {
+      format = wav.readUInt16LE(bodyOffset);
+      channels = wav.readUInt16LE(bodyOffset + 2);
+      sampleRate = wav.readUInt32LE(bodyOffset + 4);
+      bitsPerSample = wav.readUInt16LE(bodyOffset + 14);
+    } else if (chunkId === 'data') {
+      dataOffset = bodyOffset;
+      dataLength = chunkLength;
+    }
+    offset = bodyOffset + chunkLength + (chunkLength % 2);
+  }
+
+  if (format !== 1 || channels < 1 || sampleRate < 1 || bitsPerSample !== 16 || dataOffset < 0) {
+    throw new Error(`Expected a 16-bit PCM WAV file: ${filePath}`);
+  }
+  const samples = new Int16Array(
+    wav.buffer.slice(wav.byteOffset + dataOffset, wav.byteOffset + dataOffset + dataLength),
+  );
+  if (samples.length % channels !== 0) throw new Error(`Invalid PCM alignment: ${filePath}`);
+
+  const frames: AudioFrame[] = [];
+  const samplesPerChannelPerFrame = Math.max(1, Math.round((sampleRate * frameDurationMs) / 1000));
+  const frameSampleCount = samplesPerChannelPerFrame * channels;
+  for (let offset = 0; offset < samples.length; offset += frameSampleCount) {
+    const frameSampleLength = Math.min(frameSampleCount, samples.length - offset);
+    const samplesPerChannel = frameSampleLength / channels;
+    if (!Number.isInteger(samplesPerChannel)) throw new Error(`Invalid PCM frame alignment: ${filePath}`);
+    const frame = AudioFrame.create(sampleRate, channels, samplesPerChannel);
+    frame.data.set(samples.subarray(offset, offset + frameSampleLength));
+    frames.push(frame);
+  }
+  return frames;
 }
 
 function delay(milliseconds: number): Promise<void> {

@@ -10,6 +10,7 @@
     "download-files": "livekit-agents download-files",
     "test": "npm run build && node --test dist/tests",
     "test:loop": "npm run build && node dist/test-loop.js",
+    "test:replay-wavs": "npm run build && node dist/replay-wav-gate.js",
     "test:conversations": "npm run build && node dist/conversation-loop.js",
     "eval:grounding": "npm run build && node dist/grounding-quality-eval.js"
   },

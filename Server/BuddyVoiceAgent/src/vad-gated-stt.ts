@@ -18,6 +18,8 @@ export interface VadGateStats {
 
 export interface VadGatedSttOptions {
   prefixPaddingMs: number;
+  /** Additional delay after VAD's end event before finalizing the provider turn. */
+  endOfSpeechFlushDelayMs?: number;
   /** Test/file-input helper; live room streams should leave this unset. */
   endOfInputDrainMs?: number;
   onStats?: (stats: VadGateStats) => void;
@@ -99,6 +101,8 @@ export function createVadGatedSttStream(
   let forwardTask: Promise<void> | undefined;
   let sttResampler: AudioResampler | undefined;
   let sttInputSampleRate = 0;
+  let flushTimer: ReturnType<typeof setTimeout> | undefined;
+  let segmentHasAudio = false;
 
   const snapshotStats = () => ({ ...stats });
   const emitGateEvent = (type: 'speech_start' | 'speech_end' | 'flush' | 'stats') => {
@@ -134,13 +138,25 @@ export function createVadGatedSttStream(
     speechClosed = true;
     speechStream.close();
   };
+  const clearScheduledFlush = () => {
+    if (!flushTimer) return;
+    clearTimeout(flushTimer);
+    flushTimer = undefined;
+  };
+  const flushResampler = () => {
+    if (!sttResampler) return;
+    for (const residual of sttResampler.flush()) speechStream.pushFrame(residual);
+  };
   const safeFlush = () => {
-    if (closed) return;
+    if (closed || !segmentHasAudio) return;
+    flushResampler();
     speechStream.flush();
+    segmentHasAudio = false;
     stats.flushes++;
     emitGateEvent('flush');
   };
   const pushSttFrame = (frame: AudioFrame) => {
+    segmentHasAudio = true;
     const mono = downmixToMono(frame);
     if (mono.sampleRate === SARVAM_STT_SAMPLE_RATE) {
       speechStream.pushFrame(mono);
@@ -164,6 +180,7 @@ export function createVadGatedSttStream(
     for await (const event of vadStream) {
       if (event.type === VADEventType.START_OF_SPEECH) {
         if (speaking) continue;
+        clearScheduledFlush();
         speaking = true;
         stats.speechStarts++;
         emitGateEvent('speech_start');
@@ -175,8 +192,13 @@ export function createVadGatedSttStream(
         if (!speaking) continue;
         speaking = false;
         stats.speechEnds++;
-        safeFlush();
-        stats.droppedFrames += preRoll.clear();
+        clearScheduledFlush();
+        const flushDelayMs = Math.max(0, options.endOfSpeechFlushDelayMs ?? 0);
+        flushTimer = setTimeout(() => {
+          flushTimer = undefined;
+          stats.droppedFrames += preRoll.clear();
+          safeFlush();
+        }, flushDelayMs);
         emitGateEvent('speech_end');
       }
     }
@@ -202,11 +224,9 @@ export function createVadGatedSttStream(
       await closeVadInput();
       closeVad();
       await vadTask;
-      if (speaking) safeFlush();
+      clearScheduledFlush();
       stats.droppedFrames += preRoll.clear();
-      if (sttResampler) {
-        for (const residual of sttResampler.flush()) speechStream.pushFrame(residual);
-      }
+      safeFlush();
       speechStream.endInput();
       if (options.endOfInputDrainMs !== undefined) {
         await delay(Math.max(0, options.endOfInputDrainMs));
@@ -214,6 +234,7 @@ export function createVadGatedSttStream(
       }
     } catch (error) {
       await closeVadInput();
+      clearScheduledFlush();
       closeVad();
       closeSpeech();
       throw error;
@@ -239,6 +260,7 @@ export function createVadGatedSttStream(
           if (!closed) controller.error(error);
         } finally {
           closed = true;
+          clearScheduledFlush();
           closeVad();
           closeSpeech();
         }
@@ -247,6 +269,7 @@ export function createVadGatedSttStream(
     async cancel(reason) {
       closed = true;
       await closeVadInput();
+      clearScheduledFlush();
       closeVad();
       closeSpeech();
       if (audio instanceof ReadableStream) await audio.cancel(reason).catch(() => undefined);
